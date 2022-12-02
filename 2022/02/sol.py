@@ -1,17 +1,5 @@
 import sys
 
-OUTCOME_POINTS = {
-    0: {0: 3, 1: 6, 2: 0},
-    1: {0: 0, 1: 3, 2: 6},
-    2: {0: 6, 1: 0, 2: 3},
-}
-
-SHAPE_POINTS = {
-    0: 1,
-    1: 2,
-    2: 3,
-}
-
 DECODE_OPPONENT = {
     "A": 0,
     "B": 1,
@@ -27,11 +15,14 @@ DECODE_MINE = {
 
 def part_1(fname):
     total_score = 0
+    scores = [3, 6, 0]
     for line in open(fname, "r"):
         opponent_move, my_move = line.split()
         opponent_move = DECODE_OPPONENT[opponent_move]
         my_move = DECODE_MINE[my_move]
-        round_score = OUTCOME_POINTS[opponent_move][my_move] + SHAPE_POINTS[my_move]
+        offset = (opponent_move - my_move) % 3
+        score = scores[offset]
+        round_score = score + (my_move + 1)
         total_score += round_score
     return total_score
 
@@ -45,13 +36,14 @@ DECODE_OUTCOMES = {
 
 def part_2(fname):
     total_score = 0
+    moves = [0, 1, 2]
     for line in open(fname, "r"):
         opponent_move, outcome = line.split()
         opponent_move = DECODE_OPPONENT[opponent_move]
         outcome_offset, outcome_points = DECODE_OUTCOMES[outcome]
         move_index = (opponent_move + outcome_offset) % 3
-        my_move = [0, 1, 2][move_index]
-        round_score = outcome_points + SHAPE_POINTS[my_move]
+        my_move = moves[move_index]
+        round_score = outcome_points + (my_move + 1)
         total_score += round_score
     return total_score
 
