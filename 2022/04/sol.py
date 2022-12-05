@@ -1,5 +1,5 @@
 import sys
-import regex as re
+import re
 
 
 def part_1(fname):
